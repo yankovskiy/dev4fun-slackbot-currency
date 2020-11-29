@@ -1,9 +1,20 @@
+const { App } = require('@slack/bolt');
 const currencyService = require('./currency-service');
+
+const app = new App({
+    token: process.env.SLACK_BOT_TOKEN,
+    signingSecret: process.env.SLACK_SIGNING_SECRET
+});
+
+app.command('/currency', async ({command, ack, say}) => {
+    await ack();
+
+    await say('Hello world');
+});
 
 (async () => {
     await currencyService.start();
-    console.log(`10 USD = ${currencyService.calculate(10, 'USD', 'RUB')} RUB`);
-    console.log(`771.15 рублей = ${currencyService.calculate(771.15, 'RUB', 'USD')} USD`);
-    console.log(`10 EUR = ${currencyService.calculate(10, 'EUR', 'USD')} USD`);
-    console.log(`11.78 USD = ${currencyService.calculate(11.78, 'USD', 'EUR')} EUR`);
+    await app.start(process.env.PORT || 3000);
+
+    console.log('Bot currency started');
 })();
