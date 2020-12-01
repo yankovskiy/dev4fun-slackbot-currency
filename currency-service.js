@@ -38,6 +38,10 @@ class CurrencyService {
             console.error(e);
         }
     }
+
+    getValute() {
+        return this._currency.Valute;
+    }
 }
 
 module.exports = (function() {
